@@ -1,5 +1,6 @@
 class Book < ApplicationRecord
 	belongs_to :user
+	has_many :post_comments, dependent: :destroy
 	attachment :profile_image, destroy: false
 
 	validates :title, presence: true
