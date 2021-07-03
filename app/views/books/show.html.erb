@@ -39,31 +39,30 @@
           <% end %>
         </tr>
       </table>
-    </div>
-
-    <div class 'col-md-8 offset-md-1'>
-      <tr class="comments">
+      <tbody>
+        <tr class="comments">
         <% @book.post_comments.each do |post_comment| %>
-          <td><%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg") %></td>
-          <td><%= link_to post_comment.user.name, user_path(@book.user) %></td>
+          <td><%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-icon.jpg") %><br>
+          <%= link_to post_comment.user.name, user_path(@book.user) %>
+          </td>
           <td><%= post_comment.comment %></td>
 
           <% if post_comment.user == current_user %>
-          <div class="comment-delete">
-           <%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete %>
-          </div>
+          <td class="comment-delete">
+           <%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, class: "btn btn-sm btn-danger destroy_book_#{@book.id}" %>
+          </td>
           <% end %>
 
         <% end %>
-      </tr>
+        </tr>
+        <div class="new-comment col-md-8 offset-md-1 p-2">
+          <%= form_with(model:[@book, @post_comment], local: true) do |f| %>
+          <%= f.text_area :comment, placeholder: "コメントを入力してください" %>
+          <%= f.submit "送信" %>
+          <% end %>
+        </div>
+      </tbody>
     </div>
-
-    <div class="new-comment">
-      <%= form_with(model:[@book, @post_comment], local: true) do |f| %>
-       <%= f.text_area :comment, rows:'5', placeholder: "コメントを入力してください" %>
-       <%= f.submit "送信" %>
-      <% end %>
-    </div>
-
   </div>
+
 </div>
