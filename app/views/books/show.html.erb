@@ -56,6 +56,13 @@
         <% end %>
         </tr>
         <div class="new-comment col-md-8 offset-md-1 p-2">
+          <% if @post_comment.errors.any? %>
+            <%= @post_comment.errors.count %>件のエラーが発生しました
+            <% @post_comment.errors.full_messages.each do |message| %>
+              <%= message %>
+            <% end %>
+          <% end %>
+
           <%= form_with(model:[@book, @post_comment], local: true) do |f| %>
           <%= f.text_area :comment, placeholder: "コメントを入力してください" %>
           <%= f.submit "送信" %>
