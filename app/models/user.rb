@@ -9,21 +9,22 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   attachment :profile_image, destroy: false
 
-  has_many :relationships
-  has_many :active_relationships, class_name:"Relationship", foreign_key: "followed_id", dependent: :destroy
-  has_many :followers, through: :active_relationships, source: :followed
-
   has_many :relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
-  has_many :followings, through: :relationships, source: :follower
+  has_many :followed_users, through: :relationships, source: :followed
 
-  def follow(user_id)
-    relationships.create(followed_id: user_id)
+  has_many :reverse_relationships, class_name:"Relationship", foreign_key: "followed_id", dependent: :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
+
+  def following?(other_user)
+    relationships.find_by(followed_id: other_user.id)
   end
-  def unfollow(user_id)
-    relationships.find_by(followed_id: user_id).destroy
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
   end
-  def following?(user)
-    followings.include?(user)
+
+  def unfollow!(other_user)
+    relationships.find_by(followed_id: other_user.id).destroy
   end
 
   validates :name, length: {maximum: 20, minimum: 2}, uniqueness: true
