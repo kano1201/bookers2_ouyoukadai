@@ -5,8 +5,13 @@ class PostCommentsController < ApplicationController
     @post_comment = PostComment.new(post_comment_params)
     @post_comment.book_id = @book.id
     @post_comment.user_id = current_user.id
+    respond_to do |format|
     if @post_comment.save
-     render 'books/show'
+      format.html {redirect_to @book}
+      format.js {render 'books/comment'}
+    else
+      format.html {redirect_to @book}
+    end
     end
   end
 
