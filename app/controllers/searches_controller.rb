@@ -16,6 +16,22 @@ class SearchesController < ApplicationController
     end
   end
 
+  def forward(model, value)
+    if model == 'User'
+      User.where("name LIKE ?", "#{value}%")
+    elsif model == 'book'
+      Book.where("title LIKE ?", "#{value}%")
+    end
+  end
+
+  def backward(model, value)
+    if model == 'user'
+      User.where("name LIKE ?", "%#{value}")
+    elsif model == 'book'
+      Book.where("title LIKE ?", "%#{value}")
+    end
+  end
+
   def partical(model, value)
     if model == 'user'
       User.where("name LIKE ?", "%#{value}%")
@@ -28,6 +44,10 @@ class SearchesController < ApplicationController
     case how
     when 'match'
       match(model, value)
+    when 'forward'
+      forward(model, value)
+    when 'backward'
+      backward(model, value)
     when 'partical'
       partical(model, value)
     end
