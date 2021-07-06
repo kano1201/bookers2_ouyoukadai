@@ -10,12 +10,12 @@
     	</td>
     	<td><%= post_comment.comment %></td>
     	<% if current_user == post_comment_user %>
-      	<td><%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, class: "btn btn-sm btn-danger destroy_book_#{@book.id}" %></td>
+      	<td><%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, remote: true, class: "btn btn-sm btn-danger destroy_book_#{@book.id}" %></td>
     	<% end %>
     </tr>
   <% end %>
 </table>
-<%= form_with model:[@book,@post_comment] do |f| %>
+<%= form_with model:[@book,@post_comment], remote: true do |f| %>
   <%= f.text_area :comment, size:"90x5", class: "inputComment" %><br>
   <%= f.submit '送信'%>
 <% end %>
