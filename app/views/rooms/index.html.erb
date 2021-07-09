@@ -11,14 +11,14 @@
                             <%= e.user.name %>
                         <% end %>
                     </td>
-                    <!--td>
+                    <td>
                        <!-- 最新メッセージ内容の最初の7文字を表示する -->
-                        <!--% dm = DirectMessage.find_by(id: e.room.direct_message_ids.last).content %>
-                        <!-- %= truncate(dm, length: 10) %>
+                        <% dm = DirectMessage.find_by(id: e.room.direct_message_ids.last).content %>
+                        < %= truncate(dm, length: 10) %>
                     </td>
                     <td>
-                        <h6 style="color: #C0C0C0;"><!--%= e.updated_at.strftime("%Y/%m/%d %H:%M") %></h6>
-                    </td -->
+                        <h6 style="color: #C0C0C0;"><%= e.updated_at.strftime("%Y/%m/%d %H:%M") %></h6>
+                    </td>
                     <td>
                        <!-- ゴミ箱アイコンクリックでroomを消せるようにする -->
                         <%= link_to room_path(e.room.id), method: :delete do %>
